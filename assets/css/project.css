@@ -4,7 +4,7 @@
 .project-one {
     position: relative;
     display: block;
-    padding: 120px 0 120px;
+    padding: 0;
     z-index: 1;
 }
 

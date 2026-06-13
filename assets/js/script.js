@@ -51,7 +51,7 @@
             animateOut: "fadeOut",
             animateIn: "fadeIn",
             margin: 0,
-            nav: true,
+            nav: false,
             dots: false,
             smartSpeed: 500,
             autoplay: true,
@@ -634,14 +634,47 @@
                 }
             },
             submitHandler: function (form) {
-                $.post(
-                    $(form).attr("action"),
-                    $(form).serialize(),
-                    function (response) {
-                        $(form).find(".result").html(response);
-                        $(form).find('input[type="text"], input[type="email"], textarea').val("");
-                    }
-                );
+                var $form = $(form);
+                var $result = $form.find(".result");
+                var $btn = $form.find('button[type="submit"], button').last();
+                var btnHtml = $btn.html();
+                var cfg = window.DIGIFUND_EMAILJS;
+
+                if (!window.emailjs || !cfg || cfg.templateID.indexOf("YOUR_") === 0 || cfg.publicKey.indexOf("YOUR_") === 0) {
+                    $result.html('<span style="color:#e11d48">Biểu mẫu chưa được cấu hình EmailJS. Vui lòng email trực tiếp: digifundvietnam@gmail.com</span>');
+                    return false;
+                }
+
+                var cName = ($form.find('input[name="name"], input[type="text"]').first().val() || "").trim();
+                var cEmail = ($form.find('input[type="email"]').first().val() || "").trim();
+                var cProduct = ($form.find('select').first().val() || "").trim();
+                var cMessage = ($form.find('textarea').first().val() || "").trim();
+                var params = {
+                    // tên biến khớp template ({{name}}, {{email}}, {{title}})
+                    name: cName,
+                    email: cEmail,
+                    title: cProduct || "Liên hệ từ website Digifund",
+                    message: cMessage,
+                    // biến dự phòng cho template kiểu thông báo nội bộ
+                    to_email: "digifundvietnam@gmail.com",
+                    from_name: cName,
+                    from_email: cEmail,
+                    product_type: cProduct,
+                    page_url: location.href
+                };
+
+                $btn.prop("disabled", true);
+                $result.html('<span style="color:#2563eb">Đang gửi... / Sending...</span>');
+
+                emailjs.send(cfg.serviceID, cfg.templateID, params).then(function () {
+                    $result.html('<span style="color:#16a34a">Đã gửi thành công! Chúng tôi sẽ phản hồi sớm nhất. / Sent successfully!</span>');
+                    $form.find('input[type="text"], input[type="email"], textarea').val("");
+                    $btn.prop("disabled", false).html(btnHtml);
+                }, function (err) {
+                    $result.html('<span style="color:#e11d48">Gửi thất bại. Vui lòng thử lại hoặc email: digifundvietnam@gmail.com</span>');
+                    $btn.prop("disabled", false).html(btnHtml);
+                    if (window.console) console.error("EmailJS error:", err);
+                });
                 return false;
             }
         });
