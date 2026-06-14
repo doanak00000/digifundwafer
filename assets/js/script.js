@@ -44,9 +44,11 @@
 
 
 
-    //Main Slider 
+    //Main Slider
     if ($(".main-slider__carousel").length) {
-        $(".main-slider__carousel").owlCarousel({
+        var $mainSlider = $(".main-slider__carousel");
+        var mainSliderTimeout = 7000;
+        $mainSlider.owlCarousel({
             loop: true,
             animateOut: "fadeOut",
             animateIn: "fadeIn",
@@ -55,7 +57,8 @@
             dots: false,
             smartSpeed: 500,
             autoplay: true,
-            autoplayTimeout: 7000,
+            autoplayTimeout: mainSliderTimeout,
+            autoplayHoverPause: true,
             navText: [
                 '<span class="icon-arrow-right"></span>',
                 '<span class="icon-arrow-right"></span>',
@@ -74,6 +77,12 @@
                     items: 1,
                 },
             },
+        });
+        // Khi người dùng chủ động vuốt slide -> reset lại đồng hồ autoplay
+        // (tránh việc slide tự giật sang ảnh khác vì timer cũ vẫn chạy)
+        $mainSlider.on("dragged.owl.carousel", function () {
+            $mainSlider.trigger("stop.owl.autoplay");
+            $mainSlider.trigger("play.owl.autoplay", [mainSliderTimeout]);
         });
     }
 
