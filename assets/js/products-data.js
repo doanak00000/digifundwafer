@@ -7,6 +7,7 @@
    Mỗi value có thể là chuỗi (dùng chung) hoặc {vi, en}. */
 
 var WAFER_IMG = './assets/images/siliconwafer.png';
+var SIC_IMG = './assets/images/wafercarbide.png';
 
 window.PD_DATA = {
     '1': {
@@ -214,7 +215,7 @@ window.PD_DATA = {
                 },
                 variants: [
                     {
-                        name: { vi: 'SiC 3" HPSI Prime', en: 'SiC 3" HPSI Prime' }, img: WAFER_IMG,
+                        name: { vi: 'SiC 3" HPSI Prime', en: 'SiC 3" HPSI Prime' }, img: SIC_IMG,
                         desc: { vi: 'SiC substrate 3 inch, 350 µm thickness, HPSI (Semi-Insulating) type, Prime Grade', en: 'SiC substrate 3 inch, 350 µm thickness, HPSI (Semi-Insulating) type, Prime Grade' },
                         sku: 'DG-SiC-030001',
                         specs: [
@@ -226,7 +227,7 @@ window.PD_DATA = {
                         ]
                     },
                     {
-                        name: { vi: 'SiC 3" N-type', en: 'SiC 3" N-type' }, img: WAFER_IMG,
+                        name: { vi: 'SiC 3" N-type', en: 'SiC 3" N-type' }, img: SIC_IMG,
                         desc: { vi: 'SiC substrate, 4H-SiC, N-type (Nitrogen), Size: 3", Thickness: 350 µm, Prime Grade, 1-Side Polished', en: 'SiC substrate, 4H-SiC, N-type (Nitrogen), Size: 3", Thickness: 350 µm, Prime Grade, 1-Side Polished' },
                         sku: 'DG-SiC-030002',
                         specs: [
@@ -238,7 +239,7 @@ window.PD_DATA = {
                         ]
                     },
                     {
-                        name: { vi: 'SiC 4" N-type', en: 'SiC 4" N-type' }, img: WAFER_IMG,
+                        name: { vi: 'SiC 4" N-type', en: 'SiC 4" N-type' }, img: SIC_IMG,
                         desc: { vi: 'SiC substrate, 4H-SiC, N-type, Off-axis 4°, Size: 4", Thickness: 500 µm, Prime Grade, 2-Side Polished', en: 'SiC substrate, 4H-SiC, N-type, Off-axis 4°, Size: 4", Thickness: 500 µm, Prime Grade, 2-Side Polished' },
                         sku: 'DG-SiC-040001',
                         specs: [
@@ -251,7 +252,7 @@ window.PD_DATA = {
                         ]
                     },
                     {
-                        name: { vi: 'SiC 6" N-type', en: 'SiC 6" N-type' }, img: WAFER_IMG,
+                        name: { vi: 'SiC 6" N-type', en: 'SiC 6" N-type' }, img: SIC_IMG,
                         desc: { vi: 'SiC substrate, 4H-SiC, N-type, Size: 6", Thickness: 500 µm, Prime Grade', en: 'SiC substrate, 4H-SiC, N-type, Size: 6", Thickness: 500 µm, Prime Grade' },
                         sku: 'DG-SiC-060001',
                         specs: [
@@ -837,6 +838,6 @@ var SAPPHIRE_IMG = './assets/images/sapphire.png';
     var isSapphire = it.name && it.name.en && it.name.en.indexOf('Sapphire') === 0;
     (it.variants || []).forEach(function (v) {
         if (isSapphire) { v.img = SAPPHIRE_IMG; v.detailImg = SAPPHIRE_IMG; }
-        else if (v.img === WAFER_IMG) { v.detailImg = WAFER_DETAIL_IMG; }
+        else if (v.img === WAFER_IMG || v.img === SIC_IMG) { v.detailImg = WAFER_DETAIL_IMG; }
     });
 });
